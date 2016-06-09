@@ -4,4 +4,4 @@
 - unless field.editor_options[:type]==:file
   %img{:src => field.preview_image_path, :style => "padding: 10px 0; display: block; max-width: #{field.editor_options[:preview_size]}; max-width: #{field.editor_options[:preview_size]};", :class => 'rich-image-preview'}
 = javascript_tag do
-  $(function(){$('##{form.dom_id(field)}_field a').click(function(e){ e.preventDefault(); assetPicker.showFinder('##{form.dom_id(field)}', #{field.editor_options.to_json.html_safe})})})
+  $(function(){$('##{form.dom_id(field)}_field a').click(function(e){ e.preventDefault(); console.log("test"); assetPicker.showFinder('##{form.dom_id(field)}', #{field.editor_options.to_json.html_safe})})})

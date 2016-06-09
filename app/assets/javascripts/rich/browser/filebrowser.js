@@ -18,9 +18,9 @@ rich.Browser = function(){
 rich.Browser.prototype = {
 	
 	initialize: function() {
+		//Open choose image window
 		// intialize styles
 		this.initStyles($.QueryString["allowed_styles"], $.QueryString["default_style"]);
-		
 		// initialize image insertion mode
 		this._options.insertionModeMany = ($.QueryString["insert_many"]=="true")?true:false;
 		this.toggleInsertionMode(false);
@@ -93,13 +93,12 @@ rich.Browser.prototype = {
     },
 	
 	selectItem: function(item) {
+		//select image in image choose window
 		var url = $(item).data('uris')[this._options.currentStyle];
 		var id = $(item).data('rich-asset-id');
 		var title = $(item).data('title');
 		var type = $(item).data('rich-asset-type');
 		var name = $(item).data('rich-asset-name');
-		console.log($(item));
-		
 		if($.QueryString["CKEditor"]=='picker') {
 			window.opener.assetPicker.setAsset($.QueryString["dom_id"], url, id, type, title);
 		} else {
@@ -158,16 +157,16 @@ $(function(){
 	// hook up insert mode switching
 	$('#insert-one, #insert-many').click(function(e){
 		browser.toggleInsertionMode(true);
-    e.preventDefault();
-    return false;
-  });
+	    e.preventDefault();
+	    return false;
+	});
 
-  // hook up insert view switching
-  $('#view-grid, #view-list').click(function(e){
-    browser.toggleViewMode(true);
-    e.preventDefault();
-    return false;
-  });
+	// hook up insert view switching
+	$('#view-grid, #view-list').click(function(e){
+		browser.toggleViewMode(true);
+		e.preventDefault();
+		return false;
+	});
 
 	// hook up style selection
 	$('#styles li').click(function(e){
@@ -176,7 +175,7 @@ $(function(){
 
 	// hook up item insertion
 	$('body').on('click', '#items li img', function(e){
-		console.log("test")
+		//click auf Bild zum einfügen
 		browser.selectItem(e.target);
 	});
 	

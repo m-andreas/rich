@@ -17,10 +17,17 @@
 			
 			// double click an image to replace it
 			editor.on( 'doubleclick', function(evt) {
-					var element = evt.data.element;
+					var isChrome = !!window.chrome && !!window.chrome.webstore;
+					if(isChrome){
+						alert("Doppelklick auf bilder ist in Google Chrome deaktiviert. \nBitte löschen Sie das Bild und fügen Sie ein neues ein, oder verwenden Sie einen anderen Browser.")
+					}else{
+						console.log("browser detection")
+						console.log(isFirefox)
+						var element = evt.data.element;
 
-					if (element.is('img') && !element.data('cke-realelement') && !element.isReadOnly()) {
-						editor.execCommand('insertRichImage');
+						if (element.is('img') && !element.data('cke-realelement') && !element.isReadOnly()) {
+							editor.execCommand('insertRichImage');
+						}
 					}
 			});
 
