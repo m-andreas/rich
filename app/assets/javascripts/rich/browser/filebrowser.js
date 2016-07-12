@@ -3,7 +3,7 @@
 var rich = rich || {};
 
 rich.Browser = function(){
-	
+
 	this._options = {
 		currentStyle: '',
 		insertionModeMany: false,
@@ -12,11 +12,11 @@ rich.Browser = function(){
 		reachedBottom: false,
 		viewModeGrid: true
 	};
-	
+
 };
 
 rich.Browser.prototype = {
-	
+
 	initialize: function() {
 		//Open choose image window
 		// intialize styles
@@ -26,13 +26,13 @@ rich.Browser.prototype = {
 		this.toggleInsertionMode(false);
     	this.toggleViewMode(false);
 	},
-	
+
 	initStyles: function(opt, def) {
 		opt=opt.split(',');
-		$.each(opt, function(index, value) { 
+		$.each(opt, function(index, value) {
 			if(value != 'rich_thumb') $('#styles').append("<li class='scope' id='style-"+value+"' data-rich-style='"+value+"'>"+value+"</li>");
 		});
-		
+
 		browser.selectStyle(def);
 
     //check if we are inserting an object
@@ -44,10 +44,10 @@ rich.Browser.prototype = {
 			browser.selectStyle(opt[0]);
 		}
 	},
-	
+
 	setLoading: function(loading) {
 		this._options.loading = loading;
-		
+
 		if(loading == true) {
 			// $('#loading').css({visibility: 'visible'});
 			$('#loading').fadeIn();
@@ -55,16 +55,16 @@ rich.Browser.prototype = {
 			$('#loading').fadeOut();
 		}
 	},
-	
+
 	selectStyle: function(name) {
 		this._options.currentStyle = name;
 		$('#styles li').removeClass('selected');
-		$('#style-'+name).addClass('selected');	
+		$('#style-'+name).addClass('selected');
     },
 
 	toggleInsertionMode: function(switchMode) {
 		if(switchMode==true) this._options.insertionModeMany = !this._options.insertionModeMany;
-		
+
 		if(this._options.insertionModeMany == true) {
 	    $('#insert-one').hide();
 	    $('#insert-many').show();
@@ -91,31 +91,32 @@ rich.Browser.prototype = {
         $('#items').removeClass('list');
       }
     },
-	
+
 	selectItem: function(item) {
 		//select image in image choose window
 		var url = $(item).data('uris')[this._options.currentStyle];
 		var id = $(item).data('rich-asset-id');
-		var title = $(item).data('title');
+    // var title = $(item).data('title'); Title soll immer der aktuelle sein ==>
+    var title = $($(item).parent().find('#image-title')[0]).val();
 		var type = $(item).data('rich-asset-type');
 		var name = $(item).data('rich-asset-name');
 		if($.QueryString["CKEditor"]=='picker') {
 			window.opener.assetPicker.setAsset($.QueryString["dom_id"], url, id, type, title);
 		} else {
-			window.opener.CKEDITOR.tools.callFunction($.QueryString["CKEditorFuncNum"], url, id, name, title);			
+			window.opener.CKEDITOR.tools.callFunction($.QueryString["CKEditorFuncNum"], url, id, name, title);
 		}
-		
+
 		// wait a short while before closing the window or regaining focus
 		var self = this;
 		window.setTimeout(function(){
-			    if(self._options.insertionModeMany == false) {  			
+			    if(self._options.insertionModeMany == false) {
 			  window.close();
 		  } else {
 		    window.focus();
 		  }
 		},100);
 	},
-	
+
 	loadNextPage: function() {
 		if (this._options.loading || this._options.reachedBottom) {
       return;
@@ -137,7 +138,7 @@ rich.Browser.prototype = {
       });
     }
 	},
-	
+
 	nearBottomOfWindow: function() {
 		return $(window).scrollTop() > $(document).height() - $(window).height() - 100;
 	}
@@ -148,10 +149,10 @@ rich.Browser.prototype = {
 var browser;
 
 $(function(){
-	
+
 	browser = new rich.Browser();
 	browser.initialize();
-	
+
 	new rich.Uploader();
 
 	// hook up insert mode switching
@@ -178,10 +179,10 @@ $(function(){
 		//click auf Bild zum einfügen
 		browser.selectItem(e.target);
 	});
-	
+
 	// fluid pagination
 	$(window).scroll(function(){
 		browser.loadNextPage();
 	});
-	
+
 });
