@@ -12,3 +12,9 @@ function addQueryString( url, params ) {
 // load external plugins
 CKEDITOR.plugins.addExternal('MediaEmbed', '<%= asset_path('ckeditor-contrib/plugins/MediaEmbed/') %>');
 CKEDITOR.plugins.addExternal('richfile', '<%= asset_path('ckeditor-contrib/plugins/richfile/') %>');
+
+CKEDITOR.on('instanceReady', function(e) {
+  CKEDITOR.instances["image_caption"].document.on('keyup', function () {
+    $("#image_caption").val(CKEDITOR.instances["image_caption"].getData())
+  } );
+})
